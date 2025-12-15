@@ -1,0 +1,71 @@
+# OHMYPOSH CONFIG
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version = 2
+final_space = true
+console_title_template = '{{ .Shell }} in {{ .Folder }}'
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'path'
+    style = 'plain'
+    template = ' {{ .Path }} '
+    background = 'transparent'
+    foreground = 'blue'
+    
+    [blocks.segments.properties]
+      style = 'full'
+
+  [[blocks.segments]]
+    type = 'git'
+    style = 'plain'
+    # Removed fetch_status logic
+    template = ' {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} '
+    background = 'transparent'
+    foreground = 'p:grey'
+
+    [blocks.segments.properties]
+      branch_icon = ''
+      commit_icon = '@'
+      # CRITICAL PERFORMANCE FIX: Disable background fetching
+      fetch_status = false
+
+[[blocks]]
+  type = 'rprompt'
+  overflow = 'hidden'
+
+  [[blocks.segments]]
+    type = 'executiontime'
+    style = 'plain'
+    template = ' {{ .FormattedMs }} '
+    background = 'transparent'
+    foreground = 'yellow'
+
+    [blocks.segments.properties]
+      threshold = 5000
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'text'
+    style = 'plain'
+    foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}magenta{{end}}']
+    template = '  '
+    background = 'transparent'
+
+[transient_prompt]
+  foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}magenta{{end}}']
+  template = '❯ '
+  background = 'transparent'
+
+[secondary_prompt]
+  template = '❯❯ '
+  background = 'transparent'
+  foreground = 'magenta'
