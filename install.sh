@@ -70,18 +70,7 @@ fi
 # Link zshrc
 link_file "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
 
-# --- 3. Oh My Posh (Optimized Install) ---
-echo -e "\n${BLUE}🎨 Setting up Oh My Posh...${NC}"
-link_file "$DOTFILES_DIR/zen.toml" "$CONFIG_DIR/ohmyposh/zen.toml"
 
-if ! command -v oh-my-posh &> /dev/null; then
-    echo -e "${YELLOW}    Installing Oh My Posh (Binary Method)...${NC}"
-    sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
-    sudo chmod +x /usr/local/bin/oh-my-posh
-    echo -e "${GREEN}    Oh My Posh installed.${NC}"
-else
-    echo -e "${GREEN}    Oh My Posh already installed.${NC}"
-fi
 
 # --- 4. Tmux ---
 echo -e "\n${BLUE}🔌 Setting up Tmux...${NC}"
@@ -112,23 +101,7 @@ else
     echo -e "${GREEN}    Font installed.${NC}"
 fi
 
-# --- 6. Homebrew (Optional/Background) ---
-# We no longer block the main install for this, as it's not strictly required for the shell to look good.
-if ! command -v brew &> /dev/null; then
-    echo -e "\n${YELLOW}🍺 Homebrew is not installed.${NC}"
-    read -p "    Do you want to install Homebrew? (Takes ~5-10 mins) [y/N] " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        
-        # Configure shell env for immediate usage
-        if [ -d "/home/linuxbrew/.linuxbrew" ]; then
-            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        fi
-    fi
-else
-    echo -e "\n${GREEN}🍺 Homebrew is already installed.${NC}"
-fi
+
 
 echo -e "\n${GREEN}✅ Dotfiles setup complete!${NC}"
 echo -e "   Restart your terminal or run: ${YELLOW}exec zsh${NC}"
